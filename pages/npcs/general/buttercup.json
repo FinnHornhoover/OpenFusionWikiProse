@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "sections": [
+    {
+      "id": "staging-check",
+      "title": "Staging check",
+      "updatedAt": "2026-11-21",
+      "blocks": [
+        {
+          "id": "intro",
+          "kind": "markdown",
+          "source": "This prose was loaded from the content repository."
+        }
+      ],
+      "sections": []
+    }
+  ]
+}
