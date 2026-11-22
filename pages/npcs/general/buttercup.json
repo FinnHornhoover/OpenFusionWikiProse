@@ -17,27 +17,40 @@
           "title": "Finding the right Buttercup",
           "blocks": [
             {
-              "id": "00c81249-fc66-466a-a98b-3fce5e60e15f-4",
+              "id": "85355677-9d17-417b-817d-1cd26b0bdd56-1",
               "kind": "markdown",
               "source": "\n1. Select the build you play.\n2. Open the Buttercup entry for the area or mission you’re looking for.\n"
             }
           ],
           "sections": [
             {
-              "id": "00c81249-fc66-466a-a98b-3fce5e60e15f-5",
+              "id": "85355677-9d17-417b-817d-1cd26b0bdd56-2",
               "title": "What to check on the NPC page",
               "blocks": [
                 {
-                  "id": "00c81249-fc66-466a-a98b-3fce5e60e15f-6",
+                  "id": "85355677-9d17-417b-817d-1cd26b0bdd56-3",
                   "kind": "markdown",
                   "source": "\n- **Map** for where that version appears.\n- **Missions** for quests associated with that entry.\n"
                 }
               ],
               "sections": [],
-              "updatedAt": "2026-11-22T08:06:34.749Z"
+              "updatedAt": "2026-11-22T08:36:13.582Z"
+            },
+            {
+              "id": "85355677-9d17-417b-817d-1cd26b0bdd56-4",
+              "title": "How blocks, images, and links work",
+              "blocks": [
+                {
+                  "id": "85355677-9d17-417b-817d-1cd26b0bdd56-5",
+                  "kind": "markdown",
+                  "source": "\n- **Build blocks (BSIB)** show their contents only in the chosen builds. The Original block below contains an icon that only appears in Original.\n- **ID blocks (IDSIB)** show their contents only on the chosen NPC entries. The note for ID 773 appears on that entry in any build that has it. Putting the ID 720 block inside the Original block means both the build and the ID must match. Close each block with `:::` on its own line. Text outside these blocks is shared across builds and NPC IDs, including the page that lists all versions.\n- **Images** go on their own line. The text in square brackets describes the image for screen readers. The optional quoted text appears below the image as a caption. This example reuses an existing wiki icon. Use the **Image** button to add your own screenshot.\n- **Links** use `[label](destination)`. The Blossom and Bubbles links open those pages in the reader’s current build. The Buttercup (720) link points to that exact Original entry, and the GitHub link opens an external site.\n"
+                }
+              ],
+              "sections": [],
+              "updatedAt": "2026-11-22T08:36:13.582Z"
             }
           ],
-          "updatedAt": "2026-11-22T08:06:34.749Z"
+          "updatedAt": "2026-11-22T08:36:13.582Z"
         },
         {
           "id": "00c81249-fc66-466a-a98b-3fce5e60e15f-7",
@@ -53,7 +66,7 @@
           "updatedAt": "2026-11-22T08:06:34.749Z"
         }
       ],
-      "updatedAt": "2026-11-22T08:06:34.749Z"
+      "updatedAt": "2026-11-22T08:36:13.582Z"
     },
     {
       "id": "00c81249-fc66-466a-a98b-3fce5e60e15f-9",
