@@ -1,0 +1,11 @@
+{
+  "name": "openfusion-wiki-prose",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "export:prose": "node scripts/export-prose.mjs"
+  },
+  "dependencies": {
+    "adm-zip": "0.5.17"
+  }
+}
