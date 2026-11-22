@@ -2,17 +2,119 @@
   "version": 1,
   "sections": [
     {
-      "id": "staging-check",
-      "title": "Staging check",
-      "updatedAt": "2026-11-21",
+      "id": "00c81249-fc66-466a-a98b-3fce5e60e15f-1",
+      "title": "Buttercup field guide",
       "blocks": [
         {
-          "id": "intro",
+          "id": "00c81249-fc66-466a-a98b-3fce5e60e15f-2",
           "kind": "markdown",
-          "source": "This prose was loaded from the content repository."
+          "source": "\nButtercup is one of the *Powerpuff Girls*, alongside [Blossom](wiki:npcs/blossom) and [Bubbles](wiki:npcs/bubbles). The wiki groups NPC entries that share her name.\n\n> Check the build and NPC ID when following a location or mission tip.\n"
         }
       ],
-      "sections": []
+      "sections": [
+        {
+          "id": "00c81249-fc66-466a-a98b-3fce5e60e15f-3",
+          "title": "Finding the right Buttercup",
+          "blocks": [
+            {
+              "id": "00c81249-fc66-466a-a98b-3fce5e60e15f-4",
+              "kind": "markdown",
+              "source": "\n1. Select the build you play.\n2. Open the Buttercup entry for the area or mission you’re looking for.\n"
+            }
+          ],
+          "sections": [
+            {
+              "id": "00c81249-fc66-466a-a98b-3fce5e60e15f-5",
+              "title": "What to check on the NPC page",
+              "blocks": [
+                {
+                  "id": "00c81249-fc66-466a-a98b-3fce5e60e15f-6",
+                  "kind": "markdown",
+                  "source": "\n- **Map** for where that version appears.\n- **Missions** for quests associated with that entry.\n"
+                }
+              ],
+              "sections": [],
+              "updatedAt": "2026-11-22T08:06:34.749Z"
+            }
+          ],
+          "updatedAt": "2026-11-22T08:06:34.749Z"
+        },
+        {
+          "id": "00c81249-fc66-466a-a98b-3fce5e60e15f-7",
+          "title": "Example entries",
+          "blocks": [
+            {
+              "id": "00c81249-fc66-466a-a98b-3fce5e60e15f-8",
+              "kind": "markdown",
+              "source": "\n| Build | NPC ID | Role |\n| --- | ---: | --- |\n| Original | 720 | Quest |\n| Original and Retrobution | 773 | Quest |\n| Retrobution | 3328 | Defense |\n\nFor information about the server project, see [OpenFusion on GitHub](https://github.com/OpenFusionProject/OpenFusion).\n"
+            }
+          ],
+          "sections": [],
+          "updatedAt": "2026-11-22T08:06:34.749Z"
+        }
+      ],
+      "updatedAt": "2026-11-22T08:06:34.749Z"
+    },
+    {
+      "id": "00c81249-fc66-466a-a98b-3fce5e60e15f-9",
+      "title": "Notes by build and NPC",
+      "blocks": [
+        {
+          "id": "00c81249-fc66-466a-a98b-3fce5e60e15f-12",
+          "builds": [
+            "beta-20100104-fixed"
+          ],
+          "kind": "scope",
+          "blocks": [
+            {
+              "id": "00c81249-fc66-466a-a98b-3fce5e60e15f-10",
+              "kind": "image",
+              "image": {
+                "kind": "wiki",
+                "asset": "Buttercup"
+              },
+              "alt": "Buttercup’s Original NPC icon",
+              "caption": "Buttercup’s icon in the Original build."
+            },
+            {
+              "id": "00c81249-fc66-466a-a98b-3fce5e60e15f-11",
+              "entityIds": [
+                "720"
+              ],
+              "kind": "markdown",
+              "source": "[Buttercup (720)](/beta-20100104-fixed/npcs/buttercup-720) is listed as a quest NPC in Original."
+            }
+          ]
+        },
+        {
+          "id": "00c81249-fc66-466a-a98b-3fce5e60e15f-13",
+          "builds": [
+            "retrobution"
+          ],
+          "kind": "markdown",
+          "source": "Retrobution includes a defense NPC version of Buttercup under ID 3328."
+        },
+        {
+          "id": "00c81249-fc66-466a-a98b-3fce5e60e15f-14",
+          "entityIds": [
+            "773"
+          ],
+          "kind": "markdown",
+          "source": "NPC ID 773 is listed as a quest NPC in both Original and Retrobution."
+        }
+      ],
+      "sections": [],
+      "updatedAt": "2026-11-22T08:06:34.749Z"
+    }
+  ],
+  "editedBy": {
+    "id": 30576665,
+    "login": "FinnHornhoover"
+  },
+  "contributors": [
+    {
+      "id": 30576665,
+      "login": "FinnHornhoover"
     }
   ]
 }
