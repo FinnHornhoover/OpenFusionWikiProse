@@ -1,0 +1,55 @@
+{
+  "version": 1,
+  "sections": [
+    {
+      "id": "e15ecf27-330a-4014-bbc4-88b315e2bad6-1",
+      "title": "Some Context",
+      "blocks": [
+        {
+          "id": "e15ecf27-330a-4014-bbc4-88b315e2bad6-2",
+          "kind": "markdown",
+          "source": "\nA Warp-in NPC for the scrapped Bubbie infected zone, which would've been located in Stormalong Harbor, one of the many scrapped expansion areas intended to be released, but cancelled due to the bankruptcy of Grigon Entertainment (the development company originally behind the game).\nAmazingly, we somehow still have the exterior and entrance area of the infected zone, due to re-use as part of those Academy-era  missions which took place inside Chowder's mouth. Below are some images of the absolute Behemoth (Whale) that were taken in-game.\n"
+        },
+        {
+          "id": "e15ecf27-330a-4014-bbc4-88b315e2bad6-3",
+          "kind": "image",
+          "image": {
+            "kind": "upload",
+            "key": "825851f66ccdbfb0c9ce7bee7cfeba9524434597e183910a31d0ffc8ba81694e.png"
+          },
+          "alt": "From the Front"
+        },
+        {
+          "id": "e15ecf27-330a-4014-bbc4-88b315e2bad6-4",
+          "kind": "image",
+          "image": {
+            "kind": "upload",
+            "key": "64e18756a5463e15a7b77b92e70fbbc04a96305bb1f80289caaf6efc63772c6f.png"
+          },
+          "alt": "From the Bacl"
+        },
+        {
+          "id": "e15ecf27-330a-4014-bbc4-88b315e2bad6-5",
+          "kind": "image",
+          "image": {
+            "kind": "upload",
+            "key": "2146d01ca27b84a02e2e1e87a57091d8233ebbdba285e0ff11ace2f7f7c6505b.png"
+          },
+          "alt": "From the Top"
+        }
+      ],
+      "sections": [],
+      "updatedAt": "2026-11-22T09:28:06.998Z"
+    }
+  ],
+  "editedBy": {
+    "id": 163703507,
+    "login": "bensgotapen"
+  },
+  "contributors": [
+    {
+      "id": 163703507,
+      "login": "bensgotapen"
+    }
+  ]
+}
