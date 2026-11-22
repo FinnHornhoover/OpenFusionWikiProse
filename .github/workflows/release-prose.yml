@@ -2,8 +2,8 @@ name: Release player prose
 
 on:
   workflow_dispatch:
-  repository_dispatch:
-    types: [publish-wiki-prose]
+  schedule:
+    - cron: '15 0 * * *'
 
 permissions:
   contents: write
@@ -23,53 +23,85 @@ jobs:
       PROSE_REPOSITORY: ${{ github.repository }}
       SITE_URL: ${{ vars.FFWIKI_BASE_URL || 'https://fusionfall.wiki' }}
     steps:
-      - name: Check out the approved prose snapshot
+      - name: Check out prose history
         uses: actions/checkout@v4
         with:
           ref: main
+          fetch-depth: 0
           persist-credentials: false
 
-      - name: Check snapshot and release
+      - name: Prepare the release snapshot
         id: snapshot
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          commit=$(git rev-parse HEAD)
-          tag="prose-$commit"
-          archive="openfusion-wiki-prose-$commit.zip"
+          gh auth setup-git --hostname github.com
+          git fetch origin main dev --tags
+          git checkout --detach origin/main
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          base=$(git rev-parse HEAD)
+          commit=''
+          tag=''
+          resume=false
+          errors="$RUNNER_TEMP/prose-release-lookup.log"
+
+          # Resume the latest tagged publication even if main has since moved.
+          while IFS= read -r candidate; do
+            [[ -n "$candidate" ]] || continue
+            if existing=$(gh release view "$candidate" --repo "$PROSE_REPOSITORY" --json isDraft,assets 2>"$errors"); then
+              if [[ $(jq -r '.isDraft' <<< "$existing") == true ]]; then
+                tag="$candidate"
+              elif ! jq -e --arg archive "openfusion-wiki-$candidate.zip" 'any(.assets[]; .name == $archive and .state == "uploaded")' <<< "$existing" > /dev/null; then
+                echo "::error::Published release $candidate has no completed prose ZIP."
+                exit 1
+              fi
+            elif grep -qi 'release not found' "$errors"; then
+              tag="$candidate"
+            else
+              cat "$errors" >&2
+              exit 1
+            fi
+            if [[ -n "$tag" ]]; then
+              commit=$(git rev-parse "$tag^{commit}")
+              resume=true
+            fi
+            break
+          done < <(git tag --merged "$base" --list 'prose-????-??-??' 'prose-????-??-??-[0-9]*' --sort=-version:refname)
+
+          if [[ "$resume" == false ]]; then
+            if git merge-base --is-ancestor origin/dev HEAD ||
+              git diff --quiet HEAD origin/dev -- pages image-attribution.json LICENSE; then
+              echo 'No new prose changes to release.'
+              exit 0
+            fi
+            git merge --no-edit origin/dev
+            if git diff --quiet "$base" HEAD -- pages image-attribution.json LICENSE; then
+              echo 'The merge produced no new prose changes.'
+              exit 0
+            fi
+            commit=$(git rev-parse HEAD)
+            day=$(date -u +%F)
+            tag="prose-$day"
+            number=1
+            while git show-ref --verify --quiet "refs/tags/$tag"; do
+              number=$((number + 1))
+              tag="prose-$day-$number"
+            done
+          fi
+
           count=$(git ls-tree -r --name-only "$commit" -- pages |
             awk '/^pages\/[a-zA-Z0-9_-]+\/(general|specific)\/[a-zA-Z0-9_-]+\.json$/ { n++ } END { print n+0 }')
           if [[ "$count" == 0 ]]; then
-            echo "The prose main branch has no documents to release."
+            echo 'The snapshot has no documents to release.'
             exit 0
           fi
-          draft=false
-          errors="$RUNNER_TEMP/prose-release-lookup.log"
-          if existing=$(gh release view "$tag" --repo "$PROSE_REPOSITORY" --json isDraft,targetCommitish,assets 2>"$errors"); then
-            if [[ $(jq -r '.isDraft' <<< "$existing") == false ]]; then
-              released_commit=$(gh api "repos/$PROSE_REPOSITORY/commits/$tag" --jq '.sha')
-              if [[ "$released_commit" != "$commit" ]] ||
-                ! jq -e --arg archive "$archive" 'any(.assets[]; .name == $archive and .state == "uploaded")' <<< "$existing" > /dev/null; then
-                echo "::error::The existing release $tag does not match the expected commit and ZIP."
-                exit 1
-              fi
-              echo "Release $tag already contains the ZIP."
-              exit 0
-            fi
-            if [[ $(jq -r '.targetCommitish' <<< "$existing") != "$commit" ]]; then
-              echo "::error::The existing draft $tag targets a different revision."
-              exit 1
-            fi
-            draft=true
-          elif ! grep -qi 'release not found' "$errors"; then
-            cat "$errors" >&2
-            exit 1
-          fi
           {
+            echo "base=$base"
             echo "commit=$commit"
             echo "tag=$tag"
-            echo "archive=$archive"
-            echo "draft=$draft"
+            echo "archive=openfusion-wiki-$tag.zip"
+            echo "resume=$resume"
           } >> "$GITHUB_OUTPUT"
 
       - uses: actions/setup-node@v4
@@ -94,6 +126,16 @@ jobs:
             --output "$RUNNER_TEMP/$ARCHIVE"
           unzip -tq "$RUNNER_TEMP/$ARCHIVE"
 
+      - name: Promote the packaged snapshot
+        if: steps.snapshot.outputs.commit != '' && steps.snapshot.outputs.resume != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          COMMIT: ${{ steps.snapshot.outputs.commit }}
+          TAG: ${{ steps.snapshot.outputs.tag }}
+        run: |
+          git tag "$TAG" "$COMMIT"
+          git push --atomic origin "$COMMIT:refs/heads/main" "refs/tags/$TAG"
+
       - name: Publish the GitHub release
         if: steps.snapshot.outputs.commit != ''
         env:
@@ -101,24 +143,34 @@ jobs:
           COMMIT: ${{ steps.snapshot.outputs.commit }}
           TAG: ${{ steps.snapshot.outputs.tag }}
           ARCHIVE: ${{ steps.snapshot.outputs.archive }}
-          DRAFT: ${{ steps.snapshot.outputs.draft }}
         run: |
-          errors="$RUNNER_TEMP/prose-tag-lookup.log"
-          if gh api "repos/$PROSE_REPOSITORY/git/ref/tags/$TAG" --silent 2>"$errors"; then
-            tagged_commit=$(gh api "repos/$PROSE_REPOSITORY/commits/$TAG" --jq '.sha')
-            if [[ "$tagged_commit" != "$COMMIT" ]]; then
-              echo "::error::Existing tag $TAG points to a different revision."
-              exit 1
+          tagged_commit=$(gh api "repos/$PROSE_REPOSITORY/commits/$TAG" --jq '.sha')
+          if [[ "$tagged_commit" != "$COMMIT" ]]; then
+            echo "::error::Tag $TAG points to a different revision."
+            exit 1
+          fi
+          day=${TAG#prose-}
+          title="Wiki prose ${day:0:10}"
+          if [[ ${#day} -gt 10 ]]; then
+            title="$title (${day:11})"
+          fi
+          errors="$RUNNER_TEMP/prose-release-lookup.log"
+          if existing=$(gh release view "$TAG" --repo "$PROSE_REPOSITORY" --json isDraft,assets 2>"$errors"); then
+            if [[ $(jq -r '.isDraft' <<< "$existing") == false ]]; then
+              if ! jq -e --arg archive "$ARCHIVE" 'any(.assets[]; .name == $archive and .state == "uploaded")' <<< "$existing" > /dev/null; then
+                echo "::error::Published release $TAG has no completed prose ZIP."
+                exit 1
+              fi
+              echo "Release $TAG already contains the ZIP."
+              exit 0
             fi
-          elif ! grep -q 'HTTP 404' "$errors"; then
+          elif grep -qi 'release not found' "$errors"; then
+            gh release create "$TAG" --repo "$PROSE_REPOSITORY" --verify-tag --draft \
+              --title "$title" \
+              --notes "Prose snapshot $COMMIT. Download $ARCHIVE for the documents, contributor credits, and referenced images."
+          else
             cat "$errors" >&2
             exit 1
           fi
-          if [[ "$DRAFT" == true ]]; then
-            gh release upload "$TAG" "$RUNNER_TEMP/$ARCHIVE" --repo "$PROSE_REPOSITORY" --clobber
-            gh release edit "$TAG" --repo "$PROSE_REPOSITORY" --draft=false
-          else
-            gh release create "$TAG" "$RUNNER_TEMP/$ARCHIVE" --repo "$PROSE_REPOSITORY" \
-              --target "$COMMIT" --title "Wiki prose ${COMMIT:0:12}" \
-              --notes "Approved prose snapshot $COMMIT. Download $ARCHIVE for the documents, contributor credits, and referenced images."
-          fi
+          gh release upload "$TAG" "$RUNNER_TEMP/$ARCHIVE" --repo "$PROSE_REPOSITORY" --clobber
+          gh release edit "$TAG" --repo "$PROSE_REPOSITORY" --title "$title" --draft=false

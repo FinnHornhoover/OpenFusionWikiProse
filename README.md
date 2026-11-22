@@ -7,11 +7,25 @@ Image rights and credits are recorded separately where available.
 
 ## ZIP releases
 
-Merge `dev` into `main` to approve a release snapshot, then open
-**Actions → Release player prose → Run workflow**. The workflow packages
-`pages/` from the selected `main` commit and attaches the ZIP to its tag
-under **Releases**.
-Full OpenFusionAutoWiki deploys also request a release here.
+The release workflow runs daily at **00:15 UTC**. To run it on demand, open
+**Actions → Release player prose → Run workflow** on the default branch.
+
+Each run checks for new prose, image attribution, or license changes on
+`dev`. When changes are present, it merges `dev` into `main` locally,
+packages the merged snapshot, and promotes it after the ZIP succeeds.
+Runs skip when the branches have no new content to release.
+
+Release titles use the UTC date, such as **Wiki prose 2026-11-23**.
+Tags use `prose-2026-11-23` and ZIPs use
+`openfusion-wiki-prose-2026-11-23.zip`. Additional releases on the same day
+receive `-2`, `-3`, and subsequent suffixes, with the number in the release
+title. An interrupted publication resumes its existing tagged snapshot
+on the next run.
+
+The workflow needs **Contents: Read and write** through its built-in
+Actions token. Branch rules must allow the workflow to update `main`,
+and tag rules must allow it to create `prose-*` tags. Keep the workflow
+on the repository's default branch so scheduled runs are enabled.
 
 The workflow runs this repository's exporter and publishes with its built-in
 GitHub Actions token. It reads referenced images from `https://fusionfall.wiki`.
