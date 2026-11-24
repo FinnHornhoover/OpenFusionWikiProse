@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "sections": [
+    {
+      "id": "c683da7e-3c74-428e-b371-ccbef97df570-1",
+      "title": "History",
+      "blocks": [
+        {
+          "id": "c683da7e-3c74-428e-b371-ccbef97df570-2",
+          "kind": "markdown",
+          "source": "Don Doom was one of the only two world bosses present in the original game (the other being Bad Max) ever added to the game. He is also the only monster to naturally cross any map borders, patrolling both Pokey Oaks North and South. Though originally Lvl. 4, exclusively roaming the Future areas. He was moved to past and made Lvl. 8 in [beta-20110213](<wiki-build:/>) (otherwise known as the \"New Beginnings\" Update).\n\nDon Doom and Bad Max were added to the game in July of 2009. Interestingly, in [a \"Special Report\" about the world bosses published on the FusionFall website](https://web.archive.org/web/20101211112857if_/http://fusionfall.cartoonnetwork.com/community/details/news-details.php?id=202) Don Doom is pictured roaming [Genius Grove](../areas/genius-grove-the-future) (hence the [dark blue skies which the area had](https://www.youtube.com/watch?v=409ci9dAI5k) at the time. Despite this, he was probably just Spawned by a GM to get a better-looking photo.\n\nDon Doom has the internal name \"giantcrap\", a misspelling of \"Giant Crab\", referring to Don Doom looking like, you know, a giant crab. This was an error likely made on the Grigon side, who (due their primarily Korean-speaking employees), often mixed up their \"b\"s with their \"p\"s (for another example of this exact error happening, see [this very unfortunately titled instance name](../instances/dexlaps-entrance)."
+        }
+      ],
+      "sections": [],
+      "updatedAt": "2026-11-24T05:14:50.226Z",
+      "editedBy": {
+        "id": 163703507,
+        "login": "bensgotapen"
+      }
+    }
+  ],
+  "editedBy": {
+    "id": 163703507,
+    "login": "bensgotapen"
+  },
+  "contributors": [
+    {
+      "id": 163703507,
+      "login": "bensgotapen"
+    }
+  ]
+}
